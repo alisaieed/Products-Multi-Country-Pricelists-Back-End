@@ -14,6 +14,30 @@ class ProductController extends Controller
         $this->service = $service;
     }
 
+    public function getProductsWithCountriesAndPricesByCategory($categoryId)
+    {
+        $products = $this->service->getProductsWithCountriesAndPricesByCategory($categoryId);
+
+        if ($products->isEmpty()) {
+            return response()->json(['message' => 'No products found for this category'], 404);
+        }
+
+        return response()->json($products->map(function ($product) {
+            return [
+                'product_id'   => $product->id,
+                'product_name' => $product->name,
+                'countries'    => $product->prices->map(function ($price) {
+                    return [
+                        'country_id'   => $price->country->id,
+                        'country_name' => $price->country->name,
+                        'currency'     => $price->country->currency,
+                        'price'        => $price->price,
+                    ];
+                }),
+            ];
+        }));
+    }
+
     public function getPriceByProductAndCountry($productId, $countryId)
     {
         $priceRecord = $this->service->getPriceByProductAndCountry($productId, $countryId);

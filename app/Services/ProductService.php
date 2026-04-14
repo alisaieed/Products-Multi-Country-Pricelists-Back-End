@@ -12,6 +12,11 @@ class ProductService
         $this->repository = $repository;
     }
 
+    public function getProductsWithCountriesAndPricesByCategory($categoryId)
+    {
+        return $this->repository->getProductsWithCountriesAndPricesByCategory($categoryId);
+    }
+
     public function getPriceByProductAndCountry($productId, $countryId)
     {
         return $this->repository->getPriceByProductAndCountry($productId, $countryId);

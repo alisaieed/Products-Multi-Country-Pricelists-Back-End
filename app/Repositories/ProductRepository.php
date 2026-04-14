@@ -17,6 +17,13 @@ class ProductRepository
         ])->get()->map(fn ($product) => $this->formatProductWithCountries($product));
     }
 
+    public function getProductsWithCountriesAndPricesByCategory($categoryId)
+    {
+        return Product::where('category_id', $categoryId)
+            ->with(['prices.country']) // eager load prices and their country
+            ->get();
+    }
+
     public function getPriceByProductAndCountry($productId, $countryId)
     {
         return ProductPrice::where('product_id', $productId)

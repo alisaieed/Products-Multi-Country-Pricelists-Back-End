@@ -49,6 +49,8 @@ Route::get('products/country/{countryId}',
 Route::get('products/country/{countryId}/category/{categoryId}',
     [ProductController::class, 'getByCountryAndCategory']);
 
+Route::get('products/category/{categoryId}',
+    [ProductController::class, 'getProductsWithCountriesAndPricesByCategory']);
 
 // Product Units
 Route::apiResource('product-units', ProductUnitController::class);
